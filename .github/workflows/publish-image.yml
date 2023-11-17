@@ -7,7 +7,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ""
+  IMAGE_NAME: "" # Deliberately left empty, will be assigned the lower-cased repo slug: automattic/maubot.
   IMAGE_VERSION: "latest"
 
 jobs:
