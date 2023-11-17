@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+IMAGE=automattic/maubot:v0.4.2
+
+docker run "$IMAGE"
