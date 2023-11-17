@@ -9,3 +9,13 @@ api_features:
 ```
 
 This Docker image is exactly the same as [Maubot's official image](https://mau.dev/maubot/maubot/container_registry/6?orderBy=NAME&sort=desc&search[]=), but with the `plugins/` directory copied into `/data/plugins`.
+
+## Issuing a new release
+
+Edit the `version` file so that it contains the version you want to release. The versioning scheme used is: whatever Maubot's version is, with an extra decimal, e.g.:
+
+```
+v0.4.2.0
+```
+
+Then commit and push, and a GitHub action will build and push the image to the [GitHub Container Registry](https://github.com/Automattic/maubot/pkgs/container/maubot).
