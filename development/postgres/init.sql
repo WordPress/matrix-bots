@@ -1,0 +1,7 @@
+CREATE DATABASE maubot;
+
+CREATE DATABASE synapse
+  LC_COLLATE = 'C'
+  LC_CTYPE = 'C'
+  TEMPLATE template0
+;

@@ -1,0 +1,52 @@
+server_name: "matrix-bots.local"
+public_baseurl: "http://localhost:8008"
+
+log_config: "/config/log.config"
+signing_key_path: "/config/signing.key"
+media_store_path: "/tmp"
+
+enable_registration: true
+enable_registration_without_verification: true
+registration_shared_secret: "registration_shared_secret"
+
+listeners:
+  - port: 8008
+    tls: false
+    type: http
+    resources:
+      - names: [client]
+
+database:
+  name: psycopg2
+  args:
+    user: postgres
+    password: password
+    database: synapse
+    host: postgres
+    cp_min: 5
+    cp_max: 10
+
+enable_metrics: false
+report_stats: false
+opentracing:
+  enabled: false
+
+url_preview_enabled: false
+
+# "Disable" rate limiting.
+rc_registration:
+  per_second: 100
+  burst_count: 100
+rc_registration_token_validity:
+  per_second: 100
+  burst_count: 100
+rc_login:
+  address:
+    per_second: 100
+    burst_count: 100
+  account:
+    per_second: 100
+    burst_count: 100
+  failed_attempts:
+    per_second: 100
+    burst_count: 100
