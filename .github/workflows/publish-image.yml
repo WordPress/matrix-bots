@@ -12,7 +12,7 @@ env:
   IMAGE_VERSION: "" # Deliberately left empty, will be assigned the value in the ./version file.
 
 jobs:
-  build-and-push-image:
+  publish-image:
     runs-on: ubuntu-latest
     permissions:
       contents: read

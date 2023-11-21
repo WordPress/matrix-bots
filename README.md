@@ -23,4 +23,4 @@ Then edit the `version` file so that it contains the version you want to release
 v0.4.2.0
 ```
 
-Then commit and push. A GitHub action will then build and push the image to the [GitHub Container Registry](https://github.com/Automattic/maubot/pkgs/container/maubot).
+Then commit and push. A GitHub action will then publish the Docker image to the [GitHub Container Registry](https://github.com/Automattic/matrix-bots-wporg/pkgs/container/maubot).
