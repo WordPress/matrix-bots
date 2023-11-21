@@ -1,4 +1,4 @@
-name: Create and publish docker image to GitHub Container Registry
+name: Publish Maubot's Docker image to GitHub Container Registry
 
 on:
   workflow_dispatch:
@@ -8,7 +8,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: "" # Deliberately left empty, will be assigned the lower-cased repo slug: automattic/maubot.
+  IMAGE_NAME: "automattic/maubot"
   IMAGE_VERSION: "" # Deliberately left empty, will be assigned the value in the ./version file.
 
 jobs:
@@ -21,10 +21,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-
-      - name: Lowercase IMAGE_NAME
-        run: |
-          echo "IMAGE_NAME=${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV}
 
       - name: Assign version to environment variable
         run: echo 'IMAGE_VERSION='$(cat version) >> $GITHUB_ENV
