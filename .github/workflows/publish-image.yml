@@ -8,7 +8,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: "" # Deliberately left empty, will be assigned the lower-cased repo slug: automattic/maubot.
+  IMAGE_NAME: "" # Deliberately left empty, will be assigned the lower-cased repo slug: automattic/matrix-bots-wporg.
   IMAGE_VERSION: "" # Deliberately left empty, will be assigned the value in the ./version file.
 
 jobs:
