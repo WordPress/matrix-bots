@@ -11,6 +11,14 @@ services:
     depends_on:
       - postgres
 
+  element:
+    image: vectorim/element-web:latest
+    container_name: matrix-bots-wporg-element
+    volumes:
+      - ./local/element/config.json:/app/config.json
+    ports:
+      - "8009:80"
+
   postgres:
     image: postgres:15-alpine
     container_name: matrix-bots-wporg-postgres
