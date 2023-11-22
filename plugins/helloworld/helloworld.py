@@ -6,5 +6,5 @@ from maubot.handlers import event
 class HelloWorldBot(Plugin):
     @event.on(EventType.ROOM_MESSAGE)
     async def handler(self, message: MessageEvent) -> None:
-        if message.sender != self.client.mxid:
+        if not message.content.body.startswith("Hello, World!"):
             await message.reply("Hello, World!")
