@@ -64,6 +64,12 @@ You should now have the following services running:
 - `maubot` (Maubot's Web UI): http://localhost:8010 [user: `admin`, password: `admin`]
 - `postgres` (Database server): `postgresql://postgres:postgres@localhost:5432`
 
+If you wish to delete all containers and data, you can use the following script, which will restore the local checkout of the repository to its initial state, as if it had just been cloned:
+
+```shell
+bin/wipe
+```
+
 ## Docker image
 This repository provides the [Docker image for `community.wordpress.org`'s Maubot instance](https://github.com/Automattic/matrix-bots-wporg/pkgs/container/matrix-bots-wporg). The image is exactly the same as [Maubot's official image](https://mau.dev/maubot/maubot/container_registry/6?orderBy=NAME&sort=desc&search[]=), but with plugins placed in `/data/plugins`.
 
