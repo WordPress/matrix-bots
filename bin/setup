@@ -14,6 +14,22 @@ if ! docker ps -a --format '{{.Names}}' | grep -Eq "^${SYNAPSE_CONTAINER}\$"; th
   exit 1
 fi
 
-bin/register-matrix-user -u admin -p admin --admin
+# Login to Maubot.
+bin/mbc login \
+  --server http://localhost:29316 \
+  --username admin \
+  --password admin \
+  --alias local
 
-bin/mbc login --server http://localhost:29316 --username admin --password admin --alias local
+# Register admin Matrix user.
+bin/register-matrix-user \
+  -u admin \
+  -p admin \
+  --admin
+
+# Create a client in Maubot for the admin Matrix user.
+bin/mbc auth \
+  --homeserver matrix-bots-wporg.local \
+  --username admin \
+  --password admin \
+  --update-client
