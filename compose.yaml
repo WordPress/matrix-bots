@@ -19,6 +19,17 @@ services:
     ports:
       - "8009:80"
 
+  maubot:
+    image: ghcr.io/automattic/matrix-bots-wporg:latest
+    container_name: matrix-bots-wporg-maubot
+    depends_on:
+      - postgres
+    ports:
+      - "8010:29316"
+    volumes:
+      - ./local/maubot/config.yaml:/config.yaml
+    command: sh -c 'cp /config.yaml /data/config.yaml; /opt/maubot/docker/run.sh'
+
   postgres:
     image: postgres:15-alpine
     container_name: matrix-bots-wporg-postgres
