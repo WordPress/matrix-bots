@@ -1,8 +1,8 @@
 maubot: 0.4.2
-id: org.wordpress.helloworld
+id: org.wordpress.example
 version: 1.0.0
 license: AGPL-3.0-or-later
 modules:
-  - helloworld
-main_class: HelloWorldBot
+  - example
+main_class: ExampleBot
 database: false
