@@ -20,7 +20,8 @@ services:
       - "8009:80"
 
   maubot:
-    image: ghcr.io/automattic/matrix-bots-wporg:latest
+    build: .
+    image: matrix-bots-wporg-local
     container_name: matrix-bots-wporg-maubot
     depends_on:
       - postgres

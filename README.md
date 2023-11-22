@@ -65,18 +65,12 @@ You should now have the following services running:
 - `postgres` (Database server): `postgresql://postgres:postgres@localhost:5432`
 
 ## Docker image
-This repository provides the [Docker image for `community.wordpress.org`'s Maubot instance](https://github.com/Automattic/matrix-bots-wporg/pkgs/container/matrix-bots-wporg). The image is exactly the same as [Maubot's official image](https://mau.dev/maubot/maubot/container_registry/6?orderBy=NAME&sort=desc&search[]=), but with the `plugins/` directory copied into `/data/plugins`.
+This repository provides the [Docker image for `community.wordpress.org`'s Maubot instance](https://github.com/Automattic/matrix-bots-wporg/pkgs/container/matrix-bots-wporg). The image is exactly the same as [Maubot's official image](https://mau.dev/maubot/maubot/container_registry/6?orderBy=NAME&sort=desc&search[]=), but with plugins placed in `/data/plugins`.
 
 Since `community.wordpress.org`'s Maubot instance does not (deliberately) allow uploading plugins through the Web UI, the only plugins that will be available are the ones bundled into this Docker image.
 
 ### Issuing a new release
-To issue a new release of the image, first fetch plugins:
-
-```shell
-bin/fetch-plugins
-```
-
-Then edit the `version` file so that it contains the version you want to release. The versioning scheme used is: whatever Maubot's version is, with an extra decimal. For example, if Maubot's version (in `Dockerfile`) is `v0.4.2`, the `version` file would contain something like:
+To issue a new release of the image, edit the `version` file so that it contains the version you want to release. The versioning scheme used is: whatever Maubot's version is, with an extra decimal. For example, if Maubot's version (in `Dockerfile`) is `v0.4.2`, the `version` file would contain something like:
 
 ```
 v0.4.2.0
