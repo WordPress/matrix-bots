@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+# This script restores the repository to it's initial state, as if it had just been cloned.
+
+set -e
+
+docker compose down
+docker volume rm matrix-bots-wporg_postgres
