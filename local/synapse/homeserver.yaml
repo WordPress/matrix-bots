@@ -20,7 +20,7 @@ database:
   name: psycopg2
   args:
     user: postgres
-    password: password
+    password: postgres
     database: synapse
     host: postgres
     cp_min: 5

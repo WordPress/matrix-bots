@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+set -e
+
+SYNAPSE_CONTAINER=matrix-bots-wporg-synapse
+
+if ! docker info > /dev/null 2>&1; then
+  echo 'docker daemon appears to not be running.'
+  echo 'Make sure to start the docker daemon before executing this command.'
+  exit 1
+fi
+
+if ! docker ps -a --format '{{.Names}}' | grep -Eq "^${SYNAPSE_CONTAINER}\$"; then
+  echo "The $SYNAPSE_CONTAINER container isn't running."
+  echo "Make sure to start containers with 'docker compose up' before executing this command."
+  exit 1
+fi
+
+bin/register-matrix-user -u admin -p admin --admin

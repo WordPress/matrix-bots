@@ -31,12 +31,25 @@ From the repo root, run:
 docker compose up
 ```
 
-Wait for synapse container to say `No more background updates`, then stop containers and restart:
+The first time you do this, Maubot will likely fail to start due to not being able to connect to Postgres. To fix this, wait for the `matrix-bots-wporg-synapse` container to say `No more background updates`, then restart all containers:
 
 ```shell
-# ctrl-c to stop containers, then:
+# ctrl-c to stop all containers, then:
 docker compose up
 ```
+
+Finally, run the setup script:
+
+```shell
+bin/setup
+```
+
+You should now have the following services running:
+
+- `synapse` (Matrix server): http://localhost:8008
+- `element` (Matrix client): http://localhost:8009 [user: `admin`, password: `admin`]
+- `maubot` (Maubot's Web UI): http://localhost:8010 [user: `admin`, password: `admin`]
+- `postgres` (Database server): `postgresql://postgres:postgres@localhost:5432`
 
 ## Docker image
 This repository provides the [Docker image for `community.wordpress.org`'s Maubot instance](https://github.com/Automattic/matrix-bots-wporg/pkgs/container/matrix-bots-wporg). The image is exactly the same as [Maubot's official image](https://mau.dev/maubot/maubot/container_registry/6?orderBy=NAME&sort=desc&search[]=), but with the `plugins/` directory copied into `/data/plugins`.
