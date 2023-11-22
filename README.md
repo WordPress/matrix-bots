@@ -24,3 +24,27 @@ v0.4.2.0
 ```
 
 Then commit and push. A GitHub action will then publish the Docker image to the [GitHub Container Registry](https://github.com/Automattic/matrix-bots-wporg/pkgs/container/maubot).
+
+## Development environment
+Start by cloning the repository:
+
+```shell
+git clone git@github.com:Automattic/matrix-bots-wporg.git
+cd matrix-bots-wporg
+```
+
+From the repo root, run:
+
+```shell
+docker compose up
+```
+
+Wait for synapse container to say `No more background updates`, then stop containers and restart:
+
+```shell
+# ctrl-c to stop containers, then:
+docker compose up
+```
+
+## Usage
+TODO
