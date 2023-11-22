@@ -28,6 +28,7 @@ services:
       - "8010:29316"
     volumes:
       - ./local/maubot/config.yaml:/config.yaml
+      - ./local/maubot/dbs:/data/dbs
     command: sh -c 'cp /config.yaml /data/config.yaml; /opt/maubot/docker/run.sh'
 
   postgres:

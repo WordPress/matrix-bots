@@ -1,4 +1,4 @@
-server_name: "matrix-bots.local"
+server_name: "matrix-bots-wporg.local"
 public_baseurl: "http://localhost:8008"
 
 log_config: "/config/log.config"

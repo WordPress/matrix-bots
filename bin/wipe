@@ -6,3 +6,4 @@ set -e
 
 docker compose down
 docker volume rm matrix-bots-wporg_postgres
+rm -rf ./local/maubot/dbs

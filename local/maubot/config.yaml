@@ -50,7 +50,7 @@ server:
     hostname: 0.0.0.0
     port: 29316
     # Public base URL where the server is visible.
-    public_url: http://localhost:29316
+    public_url: http://localhost:8010
     # The base path for the UI.
     ui_base_path: /
     # The base path for plugin endpoints. The instance ID will be appended directly.
@@ -67,7 +67,7 @@ server:
 # clients in the management UI, since you can also just type the homeserver URL
 # into the box there.
 homeservers:
-    matrix-bots.test:
+    matrix-bots-wporg.local:
     # Client-server API URL
         url: http://synapse:8008
     # registration_shared_secret from synapse config
