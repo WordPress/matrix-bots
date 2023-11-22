@@ -1,3 +1,8 @@
 #!/usr/bin/env bash
 
-.venv/bin/mbc "$@"
+# shellcheck disable=SC2199
+if [[ "$@" == "logs" ]]; then
+  .venv/bin/mbc logs http://localhost:8010
+else
+  .venv/bin/mbc "$@"
+fi

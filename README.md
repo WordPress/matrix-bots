@@ -15,7 +15,14 @@ This repository provides the following:
 TODO
 
 ## Custom plugins
+> You'll need a development environment running locally, see [Development environment](#development-environment) for instructions on how to set it up.
+
+### Deploying to local environment
 TODO
+
+```shell
+bin/mbc
+```
 
 ## Development environment
 Start by cloning the repository:
@@ -23,6 +30,12 @@ Start by cloning the repository:
 ```shell
 git clone git@github.com:Automattic/matrix-bots-wporg.git
 cd matrix-bots-wporg
+```
+
+Do initial setup:
+
+```shell
+make
 ```
 
 From the repo root, run:

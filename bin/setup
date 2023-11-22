@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-set -e
-
 SYNAPSE_CONTAINER=matrix-bots-wporg-synapse
 
 if ! docker info > /dev/null 2>&1; then
@@ -17,3 +15,5 @@ if ! docker ps -a --format '{{.Names}}' | grep -Eq "^${SYNAPSE_CONTAINER}\$"; th
 fi
 
 bin/register-matrix-user -u admin -p admin --admin
+
+bin/mbc login --server http://localhost:8010 --username admin --password admin --alias local
