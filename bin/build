@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+set -e
+
+PLUGIN_DIRECTORY="$1"
+
+mkdir -p build
+
+bin/mbc build \
+  --output ./build/ \
+  --upload \
+  --server http://localhost:8010 \
+  "$PLUGIN_DIRECTORY"
