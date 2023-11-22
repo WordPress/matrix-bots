@@ -1,6 +1,16 @@
 # matrix-bots-wporg
+The `community.wordpress.org` Matrix server relies on bots (non-human users) that perform a variety of tasks. Bots can react to messages posted on Matrix, and/or post to Matrix whenever _something_ happens.
 
-## Usage
+Bots run in a _bot engine_ called [Maubot](https://maubot.xyz), which provides a Web UI through which bots can be created and configured. Maubot bots are implemented in Python, and are known as _Plugins_. There is an [ecosystem of existing plugins](https://plugins.mau.bot/) for Maubot, and custom plugins can be implemented as well.
+
+This repository provides the following:
+
+1. Documentation on how to [configure bots through Maubot's Web UI](#configuring-bots)
+2. The source code for [custom plugins](#custom-plugins) used in `community.wordpress.org`
+3. [Local development environment](#development-environment) to test, modify and create plugins
+4. Automation to produce the [Docker image](#docker-image) for `community.wordpress.org`'s Maubot instance
+
+## Configuring bots
 TODO
 
 ## Development environment
