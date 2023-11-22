@@ -79,7 +79,7 @@ To issue a new release of the image, edit the `version` file so that it contains
 v0.4.2.0
 ```
 
-Then commit and push. A [GitHub Action](https://github.com/Automattic/matrix-bots-wporg/actions/workflows/publish-image.yml) will then publish the Docker image to the [GitHub Container Registry](https://github.com/Automattic/matrix-bots-wporg/pkgs/container/matrix-bots-wporg).
+Then commit the `version` file and push. A [GitHub Action](https://github.com/Automattic/matrix-bots-wporg/actions/workflows/publish-image.yml) will then publish the Docker image to the [GitHub Container Registry](https://github.com/Automattic/matrix-bots-wporg/pkgs/container/matrix-bots-wporg).
 
 
 ## Deploying
