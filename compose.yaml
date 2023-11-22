@@ -3,7 +3,7 @@ services:
     image: matrixdotorg/synapse:latest
     container_name: matrix-bots-wporg-synapse
     volumes:
-      - ./development/synapse:/config
+      - ./local/synapse:/config
     environment:
       SYNAPSE_CONFIG_PATH=/config/homeserver.yaml:
     ports:
@@ -16,7 +16,7 @@ services:
     container_name: matrix-bots-wporg-postgres
     volumes:
       - postgres:/var/lib/postgresql/data
-      - ./development/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./local/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
     environment:
       POSTGRES_PASSWORD: password
     ports:
