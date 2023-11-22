@@ -16,4 +16,4 @@ fi
 
 bin/register-matrix-user -u admin -p admin --admin
 
-bin/mbc login --server http://localhost:8010 --username admin --password admin --alias local
+bin/mbc login --server http://localhost:29316 --username admin --password admin --alias local

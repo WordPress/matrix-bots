@@ -58,7 +58,7 @@ You should now have the following services running:
 
 - `synapse` (Matrix server): http://localhost:8008
 - `element` (Matrix client): http://localhost:8009 [user: `admin`, password: `admin`]
-- `maubot` (Maubot's Web UI): http://localhost:8010 [user: `admin`, password: `admin`]
+- `maubot` (Maubot's Web UI): http://localhost:29316 [user: `admin`, password: `admin`]
 - `postgres` (Database server): `postgresql://postgres:postgres@localhost:5432`
 
 If you wish to delete all containers and data, you can use the following script, which will restore the local checkout of the repository to its initial state, as if it had just been cloned:

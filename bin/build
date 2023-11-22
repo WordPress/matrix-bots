@@ -9,5 +9,4 @@ mkdir -p build
 bin/mbc build \
   --output ./build/ \
   --upload \
-  --server http://localhost:8010 \
   "$PLUGIN_DIRECTORY"
