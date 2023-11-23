@@ -9,13 +9,25 @@ This repository provides the following:
 2. The source code for [custom plugins](#custom-plugins) used in `community.wordpress.org`
 3. [Local development environment](#development-environment) to test, modify and create plugins
 4. Automation to produce the [Docker image](#docker-image) for `community.wordpress.org`'s Maubot instance
-5. Documentation on how to [deploy](#deploying) Maubot so that it uses the latest docker image
+5. Documentation on how to [redeploy](#deploying) Maubot so that it uses the latest docker image
 
 ## Configuring bots
-TODO
+Bots are configured through a Web UI that is available to server maintainers. You can get a replica of that UI in your local machine, see [development environment](#development-environment) for instructions.
+
+To effectively use the Web UI, it's important to understand a few Maubot concepts. A Maubot bot is achieved by combining the following three _things_:
+
+- **Plugin**: a Python module that implements the logic of the bot.
+- **Client**: the Matrix user that the bot will use to post to Matrix, and to receive messages from Matrix.
+- **Instance**: an instance ties a Plugin to a Client, and allows passing configuration to the Plugin. There can be multiple instances of the same Plugin, each potentially using a different Client, and specific configuration.
 
 ## Custom plugins
-> You'll need a development environment running locally, see [Development environment](#development-environment) for instructions on how to set it up.
+
+Custom plugins are plugins that have been developed by the WordPress.org community. Their source code is contained in this repo, and they are made available to the production Maubot through the [Docker image](#docker-image).
+
+To develop custom plugins, you'll need a development environment running locally, see [Development environment](#development-environment) for instructions on how to set it up.
+
+TODO
+
 
 ```shell
 bin/build plugins/helloworld
