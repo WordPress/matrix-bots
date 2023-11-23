@@ -36,6 +36,7 @@ bin/build plugins/example
 The local Maubot instance will automatically start using the newly-built version of the plugin.
 
 ### Creating a new plugin
+TODO
 
 ## Development environment
 
