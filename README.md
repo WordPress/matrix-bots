@@ -61,6 +61,8 @@ You should now have the following services running:
 - `maubot` (Maubot's Web UI): http://localhost:29316 [user: `admin`, password: `admin`]
 - `postgres` (Database server): `postgresql://postgres:postgres@localhost:5432`
 
+The homeserver domain is `matrix-bots-wporg.local`. An `@admin` Matrix user and a respective Maubot _client_ should have been created. 
+
 If you wish to delete all containers and data, you can use the following script, which will restore the local checkout of the repository to its initial state, as if it had just been cloned:
 
 ```shell
