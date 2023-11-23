@@ -23,7 +23,7 @@ To effectively use the Admin UI, it's important to understand a few Maubot conce
 ### Using Maubot's CLI
 > To use Maubot's CLI, you first need to set up a [development environment](#development-environment).
 
-Certain operations are easier to do through [Maubot's CLI](https://docs.mau.fi/maubot/usage/cli/index.html) then through the Admin UI. An example of this is creating clients, since it's not possible to automatically retrieve an access token when creating a client through the Admin UI, but the CLI is capable of doing so.
+Certain operations are easier to do through [Maubot's CLI](https://docs.mau.fi/maubot/usage/cli/index.html) than through the Admin UI. An example of this is creating clients, since it's not possible to automatically retrieve an access token when creating a client through the Admin UI, but the CLI is capable of doing so.
 
 You can access Maubot's CLI with:
 

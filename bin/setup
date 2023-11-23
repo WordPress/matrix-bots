@@ -19,10 +19,10 @@ bin/mbc login \
   --server http://localhost:29316 \
   --username admin \
   --password admin \
-  --alias local
+  --alias wporg-local
 
 # Register admin Matrix user.
-bin/register-matrix-user \
+bin/register-local-matrix-user \
   -u admin \
   -p admin \
   --admin
