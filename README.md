@@ -20,24 +20,6 @@ To effectively use the Web UI, it's important to understand a few Maubot concept
 - **Client**: the Matrix user that the bot will use to post to Matrix, and to receive messages from Matrix.
 - **Instance**: an instance ties a Plugin to a Client, and allows passing configuration to the Plugin. There can be multiple instances of the same Plugin, each potentially using a different Client, and specific configuration.
 
-## Custom plugins
-
-Custom plugins are plugins that have been developed by the WordPress.org community. Their source code is contained in this repo (under `plugins/`), and they are made available to the production Maubot through the [Docker image](#docker-image).
-
-> To develop custom plugins, you'll need a [development environment](#development-environment) running locally.
-
-### Building a plugin
-You can build a custom plugin and deploy it to the local Maubot instance with the following command (`plugins/example` is the path to the directory containing the plugin you want to build and deploy):
-
-```shell
-bin/build plugins/example
-```
-
-The local Maubot instance will automatically start using the newly-built version of the plugin.
-
-### Creating a new plugin
-TODO
-
 ## Development environment
 
 ### Setup
@@ -96,6 +78,24 @@ You can access it with:
 bin/mbc
 ```
 
+## Custom plugins
+
+Custom plugins are plugins that have been developed by the WordPress.org community. Their source code is contained in this repo (under `plugins/`), and they are made available to the production Maubot through the [Docker image](#docker-image).
+
+> To develop custom plugins, you'll need a [development environment](#development-environment) running locally.
+
+### Building a plugin
+You can build a custom plugin and deploy it to the local Maubot instance with the following command (`plugins/example` is the path to the directory containing the plugin you want to build and deploy):
+
+```shell
+bin/build plugins/example
+```
+
+The local Maubot instance will automatically start using the newly-built version of the plugin.
+
+### Creating a new plugin
+TODO
+
 ### Start from scratch
 If you wish to delete all containers and data, you can use the following script, which will restore the local checkout of the repository to its initial state, as if it had just been cloned:
 
@@ -116,7 +116,6 @@ v0.4.2.0
 ```
 
 Then commit the `version` file and push. A [GitHub Action](https://github.com/Automattic/matrix-bots-wporg/actions/workflows/publish-image.yml) will then publish the Docker image to the [GitHub Container Registry](https://github.com/Automattic/matrix-bots-wporg/pkgs/container/matrix-bots-wporg).
-
 
 ## Deploying
 TODO
