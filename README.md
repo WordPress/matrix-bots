@@ -20,7 +20,7 @@ To effectively use the Admin UI, it's important to understand a few Maubot conce
 - **Client**: the Matrix user that the bot will use to post to Matrix, and to receive messages from Matrix.
 - **Instance**: an instance ties a Plugin to a Client, and allows passing configuration to the Plugin. There can be multiple instances of the same Plugin, each potentially using a different Client, and specific configuration.
 
-### Using Maubot's CLI
+## Using Maubot's CLI
 > To use Maubot's CLI, you first need to set up a [development environment](#development-environment).
 
 Certain operations are easier to do through [Maubot's CLI](https://docs.mau.fi/maubot/usage/cli/index.html) than through the Admin UI. An example of this is creating clients, since it's not possible to automatically retrieve an access token when creating a client through the Admin UI, but the CLI is capable of doing so.
@@ -30,6 +30,22 @@ You can access Maubot's CLI with:
 ```shell
 bin/mbc
 ```
+
+### Login
+
+When using the CLI, the first step is typically to log in to a Maubot instance, so that the CLI can control said instance. As part of the setup process of the development environment, the CLI has already been logged in to the local Maubot instance (`wporg-local`).
+
+However, you can also log in to the production instance (provided you're a server maintainer):
+
+```shell
+bin/mbc login \
+  --server https://example.com \
+  --username foo \
+  --alias wporg-prod
+```
+
+### Creating clients
+TODO
 
 ## Development environment
 You can set up a local development environment that allows you to do the following:
