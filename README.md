@@ -22,18 +22,24 @@ To effectively use the Web UI, it's important to understand a few Maubot concept
 
 ## Custom plugins
 
-Custom plugins are plugins that have been developed by the WordPress.org community. Their source code is contained in this repo, and they are made available to the production Maubot through the [Docker image](#docker-image).
+Custom plugins are plugins that have been developed by the WordPress.org community. Their source code is contained in this repo (under `plugins/`), and they are made available to the production Maubot through the [Docker image](#docker-image).
 
-To develop custom plugins, you'll need a development environment running locally, see [Development environment](#development-environment) for instructions on how to set it up.
+> To develop custom plugins, you'll need a [development environment](#development-environment) running locally.
 
-TODO
-
+### Building a plugin
+You can build a custom plugin and deploy it to the local Maubot instance with the following command (`plugins/example` is the path to the directory containing the plugin you want to build and deploy):
 
 ```shell
-bin/build plugins/helloworld
+bin/build plugins/example
 ```
 
+Maubot will automatically start using the newly-built version of the plugin.
+
+### Creating a new plugin
+
 ## Development environment
+
+### Setup
 Start by cloning the repository:
 
 ```shell
@@ -66,6 +72,8 @@ Finally, run the setup script:
 bin/setup
 ```
 
+### Available services
+
 You should now have the following services running:
 
 - `synapse` (Matrix server): http://localhost:8008
@@ -75,6 +83,19 @@ You should now have the following services running:
 
 The homeserver domain is `matrix-bots-wporg.local`. An `@admin` Matrix user and a respective Maubot _client_ should have been created. You can use that client to test and develop plugins.
 
+### Maubot's CLI
+
+[Maubot's CLI](https://docs.mau.fi/maubot/usage/cli/index.html) is available for you to use. It allows you to perform a variety of tasks, like viewing logs, or retrieving access tokens for bots.
+
+> Note that the CLI talks to the local Maubot instance running in your machine, not the production instance.
+
+You can access it with:
+
+```shell
+bin/mbc
+```
+
+### Start from scratch
 If you wish to delete all containers and data, you can use the following script, which will restore the local checkout of the repository to its initial state, as if it had just been cloned:
 
 ```shell
