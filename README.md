@@ -33,7 +33,7 @@ You can build a custom plugin and deploy it to the local Maubot instance with th
 bin/build plugins/example
 ```
 
-Maubot will automatically start using the newly-built version of the plugin.
+The local Maubot instance will automatically start using the newly-built version of the plugin.
 
 ### Creating a new plugin
 
