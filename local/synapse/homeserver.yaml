@@ -1,4 +1,4 @@
-server_name: "matrix-bots.local"
+server_name: "matrix-bots-wporg.local"
 public_baseurl: "http://localhost:8008"
 
 log_config: "/config/log.config"
@@ -20,7 +20,7 @@ database:
   name: psycopg2
   args:
     user: postgres
-    password: password
+    password: postgres
     database: synapse
     host: postgres
     cp_min: 5

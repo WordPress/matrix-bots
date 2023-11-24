@@ -3,7 +3,7 @@ services:
     image: matrixdotorg/synapse:latest
     container_name: matrix-bots-wporg-synapse
     volumes:
-      - ./development/synapse:/config
+      - ./local/synapse:/config
     environment:
       SYNAPSE_CONFIG_PATH=/config/homeserver.yaml:
     ports:
@@ -11,14 +11,35 @@ services:
     depends_on:
       - postgres
 
+  element:
+    image: vectorim/element-web:latest
+    container_name: matrix-bots-wporg-element
+    volumes:
+      - ./local/element/config.json:/app/config.json
+    ports:
+      - "8009:80"
+
+  maubot:
+    build: .
+    image: matrix-bots-wporg-local
+    container_name: matrix-bots-wporg-maubot
+    depends_on:
+      - postgres
+    ports:
+      - "29316:29316"
+    volumes:
+      - ./local/maubot/config.yaml:/config.yaml
+      - ./local/maubot/dbs:/data/dbs
+    command: sh -c 'cp /config.yaml /data/config.yaml; /opt/maubot/docker/run.sh'
+
   postgres:
     image: postgres:15-alpine
     container_name: matrix-bots-wporg-postgres
     volumes:
       - postgres:/var/lib/postgresql/data
-      - ./development/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./local/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
     environment:
-      POSTGRES_PASSWORD: password
+      POSTGRES_PASSWORD: postgres
     ports:
       - "5432:5432"
 
