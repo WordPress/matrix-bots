@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# Build a single plugin and deploy it to the local Maubot instance.
+
 set -e
 
 PLUGIN_DIRECTORY="$1"
@@ -9,4 +11,5 @@ mkdir -p build
 bin/mbc build \
   --output ./build/ \
   --upload \
+  --server wporg-local \
   "$PLUGIN_DIRECTORY"

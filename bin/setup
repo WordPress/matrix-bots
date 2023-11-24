@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# Set up a local development environment.
+
 SYNAPSE_CONTAINER=matrix-bots-wporg-synapse
 
 if ! docker info > /dev/null 2>&1; then
@@ -32,4 +34,5 @@ bin/mbc auth \
   --homeserver matrix-bots-wporg.local \
   --username admin \
   --password admin \
+  --server wporg-local \
   --update-client

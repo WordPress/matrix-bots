@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# This script restores the local checkout of the repository to its initial state, as if it had just been cloned.
+# Restore the local checkout of the repository to its initial state, as if it had just been cloned.
 
 docker compose down
 docker volume rm matrix-bots-wporg_postgres
