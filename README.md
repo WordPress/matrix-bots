@@ -137,4 +137,4 @@ v0.4.2.0
 Then commit the `version` file and push. A [GitHub Action](https://github.com/Automattic/matrix-bots-wporg/actions/workflows/publish-image.yml) will then publish the Docker image to the [GitHub Container Registry](https://github.com/Automattic/matrix-bots-wporg/pkgs/container/matrix-bots-wporg).
 
 ## Deploying
-TODO
+Redeploy of Maubot in production will be done by server maintainers when a [new Docker image version](#docker-image) is published.
