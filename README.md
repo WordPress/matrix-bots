@@ -35,7 +35,7 @@ bin/mbc
 
 When using the CLI, the first step is typically to log in to a Maubot instance, so that the CLI can control said instance. As part of the setup process of the development environment, the CLI has already been logged in to the local Maubot instance (`wporg-local`).
 
-However, you can also log in to the production instance (provided you're a server maintainer, and have access to the admin password):
+However, you can also log in to the production instance (provided you're a server maintainer, and have access to Maubot's admin password):
 
 ```shell
 bin/mbc login \
