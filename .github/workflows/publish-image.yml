@@ -44,8 +44,10 @@ jobs:
           rm -rf build
           mkdir -p build
 
-          for PLUGIN in ./plugins/*/
-          do
+          for PLUGIN in ./plugins/*/; do
+            if [[ "$PLUGIN" == "./plugins/example/" ]]; then
+              continue
+            fi
             mbc build --output ./build/ "$PLUGIN"
           done
         shell: bash
