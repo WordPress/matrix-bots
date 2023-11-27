@@ -74,7 +74,7 @@ bin/mbc auth \
   --sso
 ```
 
-Once you complete the OIDC flow, a Maubot client will have been created in the Maubot Admin UI. Both the display name and the avatar will have been set to `disable`, but you should set correct values for them. If the username of the bot would be `examplebot`, its display name should be _Example Bot_.
+Once you complete the OIDC flow, a Maubot client will have been created in the Maubot Admin UI. Both the display name and the avatar will have been set to `disable`, but you should set correct values for them, through the Admin UI. If the username of the bot would be `examplebot`, its display name should be _Example Bot_.
 
 To set an avatar, you must first upload the image to a public Matrix room (e.g. `#matrix-testing:community.wordpress.org`). You can then copy the URL from the room event (in Element: click the `...` in the menu that appears when hovering the image in the timeline, then `View source`, then copy the value from `content.url`, it starts with `mxc://`).
 
