@@ -35,17 +35,48 @@ bin/mbc
 
 When using the CLI, the first step is typically to log in to a Maubot instance, so that the CLI can control said instance. As part of the setup process of the development environment, the CLI has already been logged in to the local Maubot instance (`wporg-local`).
 
-However, you can also log in to the production instance (provided you're a server maintainer):
+However, you can also log in to the production instance (provided you're a server maintainer, and have access to the admin password):
 
 ```shell
 bin/mbc login \
-  --server https://example.com \
-  --username foo \
+  --server https://wporg.automattrix.com \
+  --username admin \
   --alias wporg-prod
 ```
 
+> Notice we assigned the instance an alias of `wporg-prod`. This allows you to use `wporg-prod` whenever you need to pass the `--server` argument to any `bin/mbc` command.
+
+You can see all Maubot servers you're logged-in to (and their aliases) with:
+
+```shell
+cat ~/.config/maubot-cli.json
+```
+
 ### Creating clients
-TODO
+You can create Maubot clients through the CLI, which will automatically set an access token for the client you're creating.
+
+Note that **the WordPress.org user must already exists**, prior to attempting to create a client for it. If the WordPress.org user does not yet exists, you must first register an account like you would for any normal WordPress.org user.
+
+> **The username of the WordPress.org user MUST end with `bot`**. For example, if you're creating a _Foo Bot_, its WordPress.org username MUST be `foobot`.
+
+You can then create the Maubot client as follows:
+
+> Make sure to first **log out from WordPress.org in your default browser** (or be logged-in to the user for which you want to create a client for). The following command will initiate the OIDC flow in your default browser, and you don't want to accidentally use the wrong user.
+
+```shell
+# Replace the value for the --username argument with the Matrix username of the bot.
+
+bin/mbc auth \
+  --server wporg-prod \
+  --update-client \
+  --homeserver community.wordpress.org \
+  --username examplebot \
+  --sso
+```
+
+Once you complete the OIDC flow, a Maubot client will have been created in the Maubot Admin UI. Both the display name and the avatar will have been set to `disable`, but you should set correct values for them. If the username of the bot would be `examplebot`, its display name should be _Example Bot_.
+
+To set an avatar, you must first upload the image to a public Matrix room (e.g. `#matrix-testing:community.wordpress.org`). You can then copy the URL from the room event (in Element: click the `...` in the menu that appears when hovering the image in the timeline, then `View source`, then copy the value from `content.url`, it starts with `mxc://`).
 
 ## Development environment
 You can set up a local development environment that allows you to do the following:
