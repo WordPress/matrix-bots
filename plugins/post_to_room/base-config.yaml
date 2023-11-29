@@ -1,0 +1,2 @@
+secret: "addsecretrandomstringhere" # secret parameter that must be provided as GET param otherwise the http request to post a message is rejected
+homeserver: "matrix-bots-wporg.local"

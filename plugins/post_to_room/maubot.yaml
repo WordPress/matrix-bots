@@ -1,0 +1,11 @@
+maubot: 0.4.2
+id: org.wordpress.post_to_room
+version: 1.0.0
+license: AGPL-3.0-or-later
+config: true
+webapp: true
+extra_files:
+  - base-config.yaml
+modules:
+  - post_to_room
+main_class: PostToRoom
