@@ -1,8 +1,40 @@
+FROM dock.mau.dev/maubot/maubot:v0.4.2 as build
+
+WORKDIR /source
+ADD plugins /source/plugins
+
+RUN apk add bash git
+
+# Build all custom plugins.
+RUN <<-EOF
+    set -e
+    cd /source || exit 1
+
+    rm -rf build remote-plugins
+    mkdir -p build remote-plugins
+
+    # Pull custom plugins from remote repos.
+    # Note these are not third-party plugins, but plugins we have forked.
+    # Third-party plugins are defined later in this Dockerfile.
+    git clone https://github.com/Automattic/maubot-github.git remote-plugins/github
+
+    ## Build remote custom plugins.
+    for PLUGIN in ./remote-plugins/*/; do
+      mbc build --output ./build/ "$PLUGIN"
+    done
+
+    # Build local custom plugins.
+    for PLUGIN in ./plugins/*/; do
+      mbc build --output ./build/ "$PLUGIN"
+    done
+
+    rm -rf ./plugins/example
+EOF
+
 FROM dock.mau.dev/maubot/maubot:v0.4.2
 
 # Custom plugins.
-ADD build /data/plugins
+COPY --from=build /source/build /data/plugins
 
 # Third-party plugins.
-ADD https://github.com/maubot/github/releases/download/v0.1.2/xyz.maubot.github-v0.1.2.mbp /data/plugins/
 ADD https://github.com/maubot/rss/releases/download/v0.3.2/xyz.maubot.rss-v0.3.2.mbp /data/plugins/
