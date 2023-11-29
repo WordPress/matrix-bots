@@ -33,6 +33,9 @@ EOF
 
 FROM dock.mau.dev/maubot/maubot:v0.4.2
 
+# Need a fix made in mautrix v0.20.3 which isn't included in maubot:v0.4.2
+RUN pip install --upgrade mautrix
+
 # Custom plugins.
 COPY --from=build /source/build /data/plugins
 
