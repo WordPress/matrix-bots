@@ -1,0 +1,2 @@
+webhook: "https://example.org/endpoint" # Add external webhook URL where the event details should be relayed
+secret: "supersecretrandomstring" # Variable to check in POST request to ensure the request came from maubot
