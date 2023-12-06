@@ -1,4 +1,4 @@
-# matrix-bots-wporg
+# matrix-bots
 The `community.wordpress.org` Matrix server relies on bots (non-human users) that perform a variety of tasks. Bots can react to messages or other events posted on Matrix, and/or post to Matrix whenever _something_ happens.
 
 Bots run in a _bot engine_ called [Maubot](https://maubot.xyz), which provides an Admin UI through which bots can be created and configured. Maubot bots are implemented in Python, and are known as _Plugins_. There is an [ecosystem of existing plugins](https://plugins.mau.bot/) for Maubot, and custom plugins can be implemented as well.
@@ -88,8 +88,8 @@ You can set up a local development environment that allows you to do the followi
 Start by cloning the repository:
 
 ```shell
-git clone git@github.com:Automattic/matrix-bots-wporg.git
-cd matrix-bots-wporg
+git clone git@github.com:WordPress/matrix-bots.git
+cd matrix-bots
 ```
 
 Do initial setup:
@@ -154,7 +154,7 @@ bin/wipe
 ```
 
 ## Docker image
-This repository provides the [Docker image for `community.wordpress.org`'s Maubot instance](https://github.com/Automattic/matrix-bots-wporg/pkgs/container/matrix-bots-wporg). The image is exactly the same as [Maubot's official image](https://mau.dev/maubot/maubot/container_registry/6?orderBy=NAME&sort=desc&search[]=), but with plugins placed in `/data/plugins`.
+This repository provides the [Docker image for `community.wordpress.org`'s Maubot instance](https://github.com/WordPress/matrix-bots/pkgs/container/matrix-bots). The image is exactly the same as [Maubot's official image](https://mau.dev/maubot/maubot/container_registry/6?orderBy=NAME&sort=desc&search[]=), but with plugins placed in `/data/plugins`.
 
 Since `community.wordpress.org`'s Maubot instance does not (deliberately) allow uploading plugins through the Admin UI, the only plugins that will be available are the ones bundled into this Docker image.
 
@@ -165,7 +165,7 @@ To issue a new release of the image, edit the `version` file so that it contains
 v0.4.2.0
 ```
 
-Then commit the `version` file and push. A [GitHub Action](https://github.com/Automattic/matrix-bots-wporg/actions/workflows/publish-image.yml) will then publish the Docker image to the [GitHub Container Registry](https://github.com/Automattic/matrix-bots-wporg/pkgs/container/matrix-bots-wporg).
+Then commit the `version` file and push. A [GitHub Action](https://github.com/WordPress/matrix-bots/actions/workflows/publish-image.yml) will then publish the Docker image to the [GitHub Container Registry](https://github.com/WordPress/matrix-bots/pkgs/container/matrix-bots).
 
 ## Deploying
 Redeploy of Maubot in production will be done by server maintainers when a [new Docker image version](#docker-image) is published.

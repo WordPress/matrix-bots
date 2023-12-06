@@ -49,3 +49,4 @@ networks:
 
 volumes:
   postgres:
+      name: matrix-bots-wporg
