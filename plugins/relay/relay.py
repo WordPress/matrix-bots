@@ -112,8 +112,9 @@ class Relay(Plugin):
             reply_in_thread = True
 
         messages = content.get("messages", [])
-        for message in messages:
-            await evt.respond(content=message, markdown=True, in_thread=reply_in_thread)
+        if messages:
+            for message in messages:
+                await evt.respond(content=message, markdown=True, in_thread=reply_in_thread)
             return
 
         if "message" in content:
