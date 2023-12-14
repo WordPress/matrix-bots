@@ -1,0 +1,14 @@
+groups:
+  - name: 'Learn team'
+    keyword: 'learn' # @keyword is used to mention the group
+    description: 'This tags all active members of Learn team' # unused in code, just for documentation
+    users:
+      - '@notify1:matrix-bots-wporg.local'
+      - '@notify2:matrix-bots-wporg.local'
+
+  - name: 'Meta team developers'
+    keyword: 'meta' # @keyword is used to mention the group
+    description: 'This tags developers of meta make team' # unused in code, just for documentation
+    users:
+      - '@notify1:matrix-bots-wporg.local'
+      - '@notify2:matrix-bots-wporg.local'
