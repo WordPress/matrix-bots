@@ -1,20 +1,26 @@
+import asyncio
+import aiohttp
+import re
 from maubot import Plugin, MessageEvent
 from maubot.handlers import event
 from mautrix.types import EventType
+from typing import List, Tuple, Type
+from ruamel import yaml
 from mautrix.util.config import BaseProxyConfig, ConfigUpdateHelper
-from typing import Type, List
-import re
 
 
 class Config(BaseProxyConfig):
     def do_update(self, helper: ConfigUpdateHelper) -> None:
-        helper.copy("groups")
+        helper.copy("groups_config_src")
 
 
 class Mentions(Plugin):
+    SYNC_CONFIG_FREQUENCY = 300  # secs
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self._room_directory_cache = None
+        self.sync_config_task = None  # hold sync task object
+        self.configured_groups = None  # synced from external src
 
     def get_command_name(self) -> str:
         return self.id
@@ -27,30 +33,68 @@ class Mentions(Plugin):
         await super().start()
         self.config.load_and_update()
 
-    def get_groups_from_config(self) -> str:
-        return self.config["groups"]
+        # Don't forget to cancel the task, when stopping
+        self.sync_config_task = self.loop.create_task(self.sync_config())
 
-    def get_users_of_group(self, group_name) -> List[str]:
-        for group in self.config["groups"]:
-            if group['keyword'] == group_name:
-                return group['users']
+    async def pre_stop(self) -> None:
+        if self.sync_config_task is not None and not self.sync_config_task.done():
+            self.sync_config_task.cancel()
+
+    async def sync_config(self):
+        while True:
+            src = self.config["groups_config_src"]
+            if not src:
+                self.log.error("missing config src")
+                await asyncio.sleep(self.SYNC_CONFIG_FREQUENCY)
+                continue
+
+            async with aiohttp.ClientSession() as session:
+                async with session.get(src) as response:
+                    if response.status == 200:
+                        self.configured_groups = yaml.safe_load(await response.text())
+                    else:
+                        self.log.error(f"could not fetch config from src, status={response.status}")
+            await asyncio.sleep(self.SYNC_CONFIG_FREQUENCY)
+
+    def get_groups(self) -> str:
+        return self.configured_groups["groups"]
 
     def get_mentioned_groups(self, text) -> List[str]:
         mentioned_groups = []
 
         # build regex to search for all group names
         possible_mentions = []
-        for group in self.get_groups_from_config():
+        for group in self.get_groups():
             possible_mentions.append('@' + group['keyword'])
+            possible_mentions.append('!subteam^' + group['slack_subteam_id'])
 
         specific_mentions_regex = '|'.join(re.escape(possible_mention) for possible_mention in possible_mentions)
         pattern = f'({specific_mentions_regex})'
 
         matches = re.findall(pattern, text)
         for match in matches:
-            mentioned_groups.append(match.split('@')[1])
+            if match[0] == '@':
+                mentioned_groups.append(match.split('@')[1])
+            else:
+                mentioned_groups.append(match)
 
         return mentioned_groups
+
+    def get_info_on_matches(self, matches: List[str]) -> Tuple[List[str], List[str]]:
+        group_names = {}
+        users_to_notify = {}
+
+        for group in self.get_groups():
+            for match in matches:
+                keyword_match = group['keyword'] == match
+                slack_subteam_match = match[0] == '!' and match.split("^")[1] == group['slack_subteam_id']
+
+                if keyword_match or slack_subteam_match:
+                    group_names[group['name']] = True
+                    for user in group['users']:
+                        users_to_notify[user] = True
+
+        return list(users_to_notify.keys()), list(group_names.keys())
 
     @event.on(EventType.ROOM_MESSAGE)
     async def handle_message(self, evt: MessageEvent) -> None:
@@ -68,49 +112,38 @@ class Mentions(Plugin):
         if not matches:
             return
 
-        users_to_notify = {}
-        for group in matches:
-            for user in self.get_users_of_group(group):
-                users_to_notify[user] = True
+        # collect group names & users to notify
+        users_to_notify, group_names = self.get_info_on_matches(matches)
 
-        await self.notify_users(list(users_to_notify.keys()), matches, evt)
-
-    async def notify_users(self, users, groups, event):
-        # get group names
-        group_names = []
-        groups_config = self.get_groups_from_config()
-        for group_config in groups_config:
-            for group in groups:
-                if group_config['keyword'] == group:
-                    group_names.append(group_config['name'])
-
-        formatted_body = "Pinging members of " + ', '.join(group_names) + ": "
-        for user in users:
+        # construct body and formatted_body for message
+        body = formatted_body = "Pinging members of " + ', '.join(group_names) + ": "
+        body += ", ".join(users_to_notify)
+        for user in users_to_notify:
             formatted_body = formatted_body + " \u003ca href='https://matrix.to/#/" + user + "'\u003e" + user + "\u003c/a\u003e"
 
-        # by default this quotes the reply where groups are mentioned
+        await self.notify_users(users_to_notify, body, formatted_body, evt)
+
+    async def notify_users(self, users: List[str], body: str, formatted_body: str, evt: MessageEvent):
         content = {
-            "body": "Pinging members of " + ','.join(groups),
+            "body": body,
             "format": "org.matrix.custom.html",
             "formatted_body": formatted_body,
-            "m.mentions": {"user_ids": users},
+            "m.mentions": {
+                "user_ids": users
+            },
             "msgtype": "m.notice",
             "m.relates_to": {
                 "m.in_reply_to": {
-                    "event_id": event.event_id
+                    "event_id": evt.event_id
                 }
             }
         }
 
-        # put this in a thread as well, if we are already in a thread
-        if str(event.content.relates_to.rel_type) == "m.thread":
+        # put this in a thread as well, if we are already in a thread, replacing in_reply_to
+        if str(evt.content.relates_to.rel_type) == "m.thread":
             content["m.relates_to"] = {
                 "rel_type": "m.thread",
-                "event_id": event.content.relates_to.event_id
+                "event_id": evt.content.relates_to.event_id
             }
 
-        await self.client.send_message_event(
-            room_id=event.room_id,
-            event_type=EventType.ROOM_MESSAGE,
-            content=content
-        )
+        await self.client.send_message_event(room_id=evt.room_id, event_type=EventType.ROOM_MESSAGE, content=content)
