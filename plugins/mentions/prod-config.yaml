@@ -1,16 +1,9 @@
 groups:
-  - name: 'Learn team'
-    keyword: 'learn' # @keyword is used to mention the group
-    slack_subteam_id: 'S123'
-    description: 'This tags all active members of Learn team' # unused in code, just for documentation
-    users:
-      - '@notify1:matrix-bots-wporg.local'
-      - '@notify2:matrix-bots-wporg.local'
-
-  - name: 'Meta team developers'
-    keyword: 'meta' # @keyword is used to mention the group
+  - name: 'Orbit team developers'
+    keyword: 'orbit' # @keyword is used to mention the group
     slack_subteam_id: 'S234'
-    description: 'This tags developers of meta make team' # unused in code, just for documentation
+    description: 'This tags developers of Orbit team' # unused in code, just for documentation
     users:
-      - '@notify3:matrix-bots-wporg.local'
-      - '@notify4:matrix-bots-wporg.local'
+      - '@ashfame:community.wordpress.org'
+      - '@psrpinto:community.wordpress.org'
+      - '@akirk:community.wordpress.org'
