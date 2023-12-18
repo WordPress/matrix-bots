@@ -1,6 +1,6 @@
 maubot: 0.4.2
 id: org.wordpress.watchdog
-version: 1.0.0
+version: 1.0.1
 license: AGPL-3.0-or-later
 config: true
 extra_files:
