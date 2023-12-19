@@ -1,1 +1,2 @@
 room: "" # room id where you want alerts to be posted
+monitoring_interval: 300 # monitoring checks every x seconds
