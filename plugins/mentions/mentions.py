@@ -119,7 +119,7 @@ class Mentions(Plugin):
         body = formatted_body = "Pinging members of " + ', '.join(group_names) + ": "
         body += ", ".join(users_to_notify)
         for user in users_to_notify:
-            formatted_body = formatted_body + " \u003ca href='https://matrix.to/#/" + user + "'\u003e" + user + "\u003c/a\u003e"
+            formatted_body = formatted_body + " <a href='https://matrix.to/#/" + user + "'>" + user + "</a>"
 
         await self.notify_users(users_to_notify, body, formatted_body, evt)
 
