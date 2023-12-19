@@ -12,11 +12,21 @@ from mautrix.util.config import BaseProxyConfig, ConfigUpdateHelper
 class Config(BaseProxyConfig):
     def do_update(self, helper: ConfigUpdateHelper) -> None:
         helper.copy("groups_config_src")
+        helper.copy("sync_config_interval")
+
+
+# returns default bool if all elements in boolList are not same
+def get_collective_behavior(boolList: List[bool], default: bool) -> bool:
+    if len(boolList) == 1:
+        return boolList[0]
+
+    if all(value == boolList[0] for value in boolList):
+        return boolList[0]
+    else:
+        return default
 
 
 class Mentions(Plugin):
-    SYNC_CONFIG_FREQUENCY = 300  # secs
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.sync_config_task = None  # hold sync task object
@@ -45,7 +55,7 @@ class Mentions(Plugin):
             src = self.config["groups_config_src"]
             if not src:
                 self.log.error("missing config src")
-                await asyncio.sleep(self.SYNC_CONFIG_FREQUENCY)
+                await asyncio.sleep(self.config["sync_config_interval"])
                 continue
 
             async with aiohttp.ClientSession() as session:
@@ -54,7 +64,7 @@ class Mentions(Plugin):
                         self.configured_groups = yaml.safe_load(await response.text())
                     else:
                         self.log.error(f"could not fetch config from src, status={response.status}")
-            await asyncio.sleep(self.SYNC_CONFIG_FREQUENCY)
+            await asyncio.sleep(self.config["sync_config_interval"])
 
     def get_groups(self) -> str:
         return self.configured_groups["groups"]
@@ -80,9 +90,13 @@ class Mentions(Plugin):
 
         return mentioned_groups
 
-    def get_info_on_matches(self, matches: List[str]) -> Tuple[List[str], List[str]]:
+    def get_info_on_matches(self, matches: List[str]) -> Tuple[List[str], List[str], bool, bool]:
         group_names = {}
         users_to_notify = {}
+
+        # choosing behavior
+        quote_triggering_message = []
+        always_reply_in_thread = []
 
         for group in self.get_groups():
             for match in matches:
@@ -94,7 +108,15 @@ class Mentions(Plugin):
                     for user in group['users']:
                         users_to_notify[user] = True
 
-        return list(users_to_notify.keys()), list(group_names.keys())
+                    quote_triggering_message.append(bool(group['quote_triggering_message']))
+                    always_reply_in_thread.append(bool(group['always_reply_in_thread']))
+
+        return (
+            list(users_to_notify.keys()),
+            list(group_names.keys()),
+            get_collective_behavior(quote_triggering_message, True),
+            get_collective_behavior(always_reply_in_thread, False),
+        )
 
     @event.on(EventType.ROOM_MESSAGE)
     async def handle_message(self, evt: MessageEvent) -> None:
@@ -119,7 +141,9 @@ class Mentions(Plugin):
                 slack_bridge_ignore = True
 
         # collect group names & users to notify
-        users_to_notify, group_names = self.get_info_on_matches(matches)
+        users_to_notify, group_names, quote_triggering_message, always_reply_in_thread = self.get_info_on_matches(
+            matches
+        )
 
         # construct body and formatted_body for message
         body = formatted_body = "Pinging members of " + ', '.join(group_names) + ": "
@@ -127,9 +151,21 @@ class Mentions(Plugin):
         for user in users_to_notify:
             formatted_body = formatted_body + " <a href='https://matrix.to/#/" + user + "'>" + user + "</a>"
 
-        await self.notify_users(users_to_notify, body, formatted_body, slack_bridge_ignore, evt)
+        await self.notify_users(
+            users_to_notify,
+            body,
+            formatted_body,
+            {
+                "slack_bridge_ignore": slack_bridge_ignore,
+                "quote_triggering_message": quote_triggering_message,
+                "always_reply_in_thread": always_reply_in_thread,
+                "event": evt
+            }
+        )
 
-    async def notify_users(self, users: List[str], body: str, formatted_body: str, slack_bridge_ignore, evt: MessageEvent):
+    async def notify_users(self, users: List[str], body: str, formatted_body: str, options: dict):
+        evt = options['event']
+
         content = {
             "body": body,
             "format": "org.matrix.custom.html",
@@ -145,8 +181,11 @@ class Mentions(Plugin):
             }
         }
 
-        if slack_bridge_ignore:
-            content["org.wordpress.slack_bridge_ignore"] = slack_bridge_ignore
+        if not options['quote_triggering_message']:
+            del content['m.relates_to']
+
+        if options['slack_bridge_ignore']:
+            content["org.wordpress.slack_bridge_ignore"] = options['slack_bridge_ignore']
 
         # put this in a thread as well, if we are already in a thread, replacing in_reply_to
         if str(evt.content.relates_to.rel_type) == "m.thread":
@@ -154,5 +193,17 @@ class Mentions(Plugin):
                 "rel_type": "m.thread",
                 "event_id": evt.content.relates_to.event_id
             }
+        elif options['always_reply_in_thread']:
+            content["m.relates_to"] = {
+                "rel_type": "m.thread",
+                "event_id": evt.event_id
+            }
 
-        await self.client.send_message_event(room_id=evt.room_id, event_type=EventType.ROOM_MESSAGE, content=content)
+        try:
+            await self.client.send_message_event(
+                room_id=evt.room_id,
+                event_type=EventType.ROOM_MESSAGE,
+                content=content
+            )
+        except Exception as e:
+            self.log.exception("failed to notify users")
