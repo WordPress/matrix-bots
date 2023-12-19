@@ -146,7 +146,7 @@ class Mentions(Plugin):
         }
 
         if slack_bridge_ignore:
-            content["org.wordpress.do_not_bridge"] = slack_bridge_ignore
+            content["org.wordpress.slack_bridge_ignore"] = slack_bridge_ignore
 
         # put this in a thread as well, if we are already in a thread, replacing in_reply_to
         if str(evt.content.relates_to.rel_type) == "m.thread":
