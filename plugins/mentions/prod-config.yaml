@@ -1,0 +1,9 @@
+groups:
+  - name: 'Orbit team developers'
+    keyword: 'orbit' # @keyword is used to mention the group
+    slack_subteam_id: 'S234'
+    description: 'This tags developers of Orbit team' # unused in code, just for documentation
+    users:
+      - '@ashfame:community.wordpress.org'
+      - '@psrpinto:community.wordpress.org'
+      - '@akirk:community.wordpress.org'
