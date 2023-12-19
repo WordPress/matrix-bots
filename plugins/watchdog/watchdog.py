@@ -89,13 +89,25 @@ class WatchDog(Plugin):
                                        current_rooms: Dict[RoomID, PublicRoomInfo]):
         for room_id in current_rooms:
             if room_id in known_rooms and current_rooms[room_id].name != known_rooms[room_id].name:
-                text_message = f"**Room name update:**\n`{known_rooms[room_id].name}` -> `{current_rooms[room_id].name}` `{room_id}`"
-                html_message = f"<strong>Room name update:</strong><br><code>{known_rooms[room_id].name}</code> -> <code>{current_rooms[room_id].name}</code><br><code>{room_id}</code>"
+                text_message = (
+                    f"**Room name update:**\n`{known_rooms[room_id].name}` -> `{current_rooms[room_id].name}`"
+                    f"`{room_id}`")
+                html_message = (
+                    f"<strong>Room name update:</strong><br><code>{known_rooms[room_id].name}</code> -> "
+                    f"<code>{current_rooms[room_id].name}</code><br><code>{room_id}</code>"
+                )
                 await self.post_message(text_message, html_message)
 
-            if room_id in known_rooms and current_rooms[room_id].topic != known_rooms[room_id].topic:
-                text_message = f"**Room topic update:**\n`{current_rooms[room_id].name}`\n`{known_rooms[room_id].topic}` -> `{current_rooms[room_id].topic}` `{room_id}`"
-                html_message = f"<strong>Room topic update:</strong><br><code>{current_rooms[room_id].name}</code><br>Old topic: <code>{known_rooms[room_id].topic}</code><br>New topic:<code>{current_rooms[room_id].topic}</code><br><code>{room_id}</code>"
+                if room_id in known_rooms and current_rooms[room_id].topic != known_rooms[room_id].topic:
+                    text_message = (
+                        f"**Room topic update:**\n`{current_rooms[room_id].name}`\n`{known_rooms[room_id].topic}` ->"
+                        f" `{current_rooms[room_id].topic}` `{room_id}`"
+                    )
+                html_message = (
+                    f"<strong>Room topic update:</strong><br><code>{current_rooms[room_id].name}</code><br>"
+                    f"Old topic: <code>{known_rooms[room_id].topic}</code><br>"
+                    f"New topic:<code>{current_rooms[room_id].topic}</code><br><code>{room_id}</code>"
+                )
                 await self.post_message(text_message, html_message)
 
     async def query_room_dir(self, max_retries) -> Dict[RoomID, PublicRoomInfo]:
