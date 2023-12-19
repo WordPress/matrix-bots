@@ -112,6 +112,12 @@ class Mentions(Plugin):
         if not matches:
             return
 
+        # add do_not_bridge property to event so that slack bridge should not carry it over to Slack
+        slack_bridge_ignore = False
+        for match in matches:
+            if match.startswith("!subteam^"):
+                slack_bridge_ignore = True
+
         # collect group names & users to notify
         users_to_notify, group_names = self.get_info_on_matches(matches)
 
@@ -121,9 +127,9 @@ class Mentions(Plugin):
         for user in users_to_notify:
             formatted_body = formatted_body + " <a href='https://matrix.to/#/" + user + "'>" + user + "</a>"
 
-        await self.notify_users(users_to_notify, body, formatted_body, evt)
+        await self.notify_users(users_to_notify, body, formatted_body, slack_bridge_ignore, evt)
 
-    async def notify_users(self, users: List[str], body: str, formatted_body: str, evt: MessageEvent):
+    async def notify_users(self, users: List[str], body: str, formatted_body: str, slack_bridge_ignore, evt: MessageEvent):
         content = {
             "body": body,
             "format": "org.matrix.custom.html",
@@ -138,6 +144,9 @@ class Mentions(Plugin):
                 }
             }
         }
+
+        if slack_bridge_ignore:
+            content["org.wordpress.do_not_bridge"] = slack_bridge_ignore
 
         # put this in a thread as well, if we are already in a thread, replacing in_reply_to
         if str(evt.content.relates_to.rel_type) == "m.thread":
