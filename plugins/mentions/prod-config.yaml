@@ -7,3 +7,5 @@ groups:
       - '@ashfame:community.wordpress.org'
       - '@psrpinto:community.wordpress.org'
       - '@akirk:community.wordpress.org'
+    quote_triggering_message: false # default behavior is true (conflicting config when mentioning multiple groups will result in default behavior)
+    always_reply_in_thread: false # default behavior is false (conflicting config when mentioning multiple groups will result in default behavior)
