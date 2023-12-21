@@ -151,17 +151,14 @@ class Mentions(Plugin):
         for user in users_to_notify:
             formatted_body = formatted_body + " <a href='https://matrix.to/#/" + user + "'>" + user + "</a>"
 
-        await self.notify_users(
-            users_to_notify,
-            body,
-            formatted_body,
-            {
-                "slack_bridge_ignore": slack_bridge_ignore,
-                "quote_triggering_message": quote_triggering_message,
-                "always_reply_in_thread": always_reply_in_thread,
-                "event": evt
-            }
-        )
+        options = {
+            "slack_bridge_ignore": slack_bridge_ignore,
+            "quote_triggering_message": quote_triggering_message,
+            "always_reply_in_thread": always_reply_in_thread,
+            "event": evt
+        }
+
+        await self.notify_users(users_to_notify, body, formatted_body, options)
 
     async def notify_users(self, users: List[str], body: str, formatted_body: str, options: dict):
         evt = options['event']
